@@ -102,7 +102,19 @@ const routes: Array<RouteRecordRaw> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/CadastroVeiculoView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/CadastroVeiculoView.vue'),
+    children: [
+      {
+        path: '/cadastroVeiculo',
+        name: 'veiculo-formulario-editar-view',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CadastroVeiculoView.vue')
+      },
+      {
+        path: '/cadastroVeiculo',
+        name: 'veiculo-formulario-excluir-view',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CadastroVeiculoView.vue')
+      }
+    ]
   },
   {
     path: '/cadastromovimentacao',
@@ -118,7 +130,19 @@ const routes: Array<RouteRecordRaw> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/CadastroCondutorView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/CadastroCondutorView.vue'),
+    children: [
+      {
+        path: '/cadastrocondutor',
+        name: 'condutor-formulario-editar-view',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CadastroCondutorView.vue')
+      },
+      {
+        path: '/cadastrocondutor',
+        name: 'condutor-formulario-excluir-view',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CadastroCondutorView.vue')
+      }
+    ]
   },
   {
     path: '/relatorio',

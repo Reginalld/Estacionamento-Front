@@ -1,153 +1,97 @@
 <template>
 
-    <div class="home">
-
-    <div class="tabela">
-        <div id="tudao">
-
-                <div class="titulo">
-                    <h4>Condutores</h4>
-                </div>
-                <div id ="separa">
-
-                </div>
-                <div class="botao">
-                    <button type="button" onclick="window.location.href='/cadastrocondutor'" class="btn btn-outline-danger">Cadastrar condutor</button>
-                </div>  
-
-            </div>
-        <div class ="tabela2">
-                    <table class="table table-bordered table-striped table-responsive">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Cpf</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">Tempo Pago</th>
-                        <th scope="col">Tempo Desconto</th>
-                        <th scope="col">Botão</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Reginaldo</td>
-                        <td>872-323-233.78</td>
-                        <td>(45)99823-8742</td>
-                        <td>23:32:12</td>
-                        <td>00:00:00</td>
-                        <td>
-                    <button type="button" class="btn btn-outline-primary">
-                        Excluir
-                    </button>
-                    <button type="button" class="btn btn-outline-success">
-                        Editar
-                    </button>
-                    </td>
-                        </tr>
-                        <tr>
-                        <th scope="row">2</th>
-                        <td>Douglas</td>
-                        <td>645-234-122.44</td>
-                        <td>(45)99832-1534</td>
-                        <td>43:12:43</td>
-                        <td>02:00:00</td>
-                        <td>
-                    <button type="button" class="btn btn-outline-primary">
-                        Excluir
-                    </button>
-                    <button type="button" class="btn btn-outline-success">
-                        Editar
-                    </button>
-                    </td>
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Pedro</td>
-                        <td>923-423-123.22</td>
-                        <td>(45)99843-0923</td>
-                        <td>04:12:43</td>
-                        <td>01:00:00</td>
-                        <td>
-                    <button type="button" class="btn btn-outline-primary">
-                        Excluir
-                    </button>
-                    <button type="button" class="btn btn-outline-success">
-                        Editar
-                    </button>
-                    </td>   
-                        </tr>
-                    </tbody>
-            </table>
+    <div class="container" style="margin-top: 10px;">
+  
+      <div class="row">
+        <div class="col-md-10 text-start"> <p class="fs-3"> Lista de Condutor </p> </div>
+        <div class="col-md-2"> 
+          <div class="d-grid gap-2">
+            <router-link type="button" class="btn btn-success" 
+              to="/cadastrocondutor">Cadastrar
+            </router-link>
+          </div>
         </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-12">  
+          <table class="table">
+            <thead class="table-secondary" >
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Ativo</th>
+                <th scope="col" class="text-start">Nome</th>
+                <th scope="col" class="text-start">Cpf</th>
+                <th scope="col" class="text-start">Telefone</th>
+                <th scope="col" class="text-start">Tempo Desconto</th>
+                <th scope="col" class="text-start">Tempo Pago</th>
+                <th scope="col">Opção</th>
+              </tr>
+            </thead>  
+            <tbody class="table-group-divider">
+              
+              <tr v-for="item in condutoresList" :key="item.id">
+                <th class="col-md-1">{{ item.id }}</th>
+                <th class="col-md-2"> 
+                  <span v-if="item.ativo" class="badge text-bg-success"> Ativo </span>
+                  <span v-if="!item.ativo" class="badge text-bg-danger"> Inativo </span>
+                </th>
+                <th class="text-start">{{ item.nome }}</th>
+                <th class="text-start">{{ item.cpf }}</th>
+                <th class="text-start">{{ item.telefone }}</th>
+                <th class="text-start">{{ item.tempoDesconto }}</th>
+                <th class="text-start">{{ item.tempoPago }}</th>
+                <th class="col-md-2">
+                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <router-link type="button" class="btn btn-sm btn-warning" 
+                        :to="{ name: 'condutor-formulario-editar-view', query: { id: item.id, form: 'editar' } } "> 
+                      Editar 
+                    </router-link>
+                    <router-link type="button" class="btn btn-sm btn-danger" 
+                        :to="{ name: 'condutor-formulario-excluir-view', query: { id: item.id, form: 'delete' } } ">
+                      Excluir
+                    </router-link>
+                  </div>
+                </th>
+              </tr>
+  
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-</div>
-
+  
   </template>
   
-  <script lang="ts"></script>
+  <script lang="ts">
   
-  <style>
-
-h5{
-    text-decoration: dashed;
-    
-  }
-
-    .tabela{
-    width: 100%;
+  import { defineComponent } from 'vue';
   
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 5rem;
-
+  import  CondutorClient from '@/client/condutor.client';
+  import { Condutor } from '@/model/condutor';
+  
+  export default defineComponent({
+    name: 'CondutorLista',
+    data() {
+      return {
+          condutoresList: new Array<Condutor>()
+      }
+    },
+    mounted() {
+      this.findAll();
+    },
+    methods: {
+  
+      findAll() {
+        CondutorClient.listaAll()
+          .then(sucess => {
+            this.condutoresList = sucess
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     }
-
-
-
-    #tudao{
-        width: 65%;
-        
-        display: flex;
-        justify-content: center;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.5rem;
-        margin-top: 5rem;
-        
-    }
-
-    .tabela2{
-        width: 65%;
-    }
-
-    .botao {
-    display: flex;
-
-    height: 45px;
-    
-  }
-
-  .titulo h1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    font-weight: bold;
-    color: black;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    height: 10vh;
-  }
-
-
-
-
-
-
-
-  </style>
+  });
+  
+  </script>
