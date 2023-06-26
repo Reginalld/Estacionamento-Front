@@ -2,7 +2,7 @@ import { Veiculo } from "@/model/veiculo";
 import axios, { AxiosInstance } from "axios";
 
 
-export class VeiculoClient{
+class VeiculoClient{
 
 
   private axiosClient: AxiosInstance;

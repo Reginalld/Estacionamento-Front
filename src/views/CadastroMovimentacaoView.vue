@@ -1,124 +1,256 @@
 <template>
-    <div class="maincadastromo">
-      <div class="titulotcadastromo">
-        <h1>Cadastro de movimentação</h1>
+
+  <div class="container" style="background: ;">
+
+    <div class="row">
+      <div class="col-md-10 text-start"> <p class="fs-3"> Cadastrar de Movimentacao</p> </div>
+      <div class="col-md-2"> </div>
+    </div>
+
+    <hr/>
+
+    <div v-if="mensagem.ativo" class="row">
+      <div class="col-md-12 text-start">
+        <div :class="mensagem.css" role="alert">
+          <strong>{{ mensagem.titulo }}</strong> {{ mensagem.mensagem }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+            <label for="recipient-name" class=" row m-auto col-form-label">Condutor :</label>
+            <select type="text" v-model="movimentacao.condutor"><option v-for="item in condutor" :value="item">{{ item.nome }} </option></select>
+        </div>
+        <div class="col-md-12 text-start">
+            <label for="recipient-name" class=" row m-auto col-form-label">Placa :</label>
+            <select type="text" v-model="movimentacao.veiculo"><option v-for="item in veiculo" :value="item">{{ item.placa }} </option></select>
+        </div> 
+        <div class="col-md-12 text-start">
+            <label for="recipient-name" class=" row m-auto col-form-label">Modelo :</label>
+            <select type="text" v-model="movimentacao.veiculo"><option v-for="item in veiculo" :value="item">{{ item.modelo.nome }} </option></select>
+        </div>
+        <div class="col-md-12 text-start">
+            <label for="recipient-name" class=" row m-auto col-form-label">Marca :</label>
+            <select type="text" v-model="movimentacao.veiculo"><option v-for="item in veiculo" :value="item">{{ item.modelo.marca.nome }} </option></select>
+        </div> 
+        <div class="col-md-12 text-start">
+          <label class="form-label">Entrada</label>
+          <input type="text"  class="form-control" v-model="movimentacao.entrada">
+        </div>
       </div>
 
-      <div class="formulariomo">
-        <ul class="list-group">
-          <li class="list-group-item">
 
-            <div id ="divisao">
-                <p>Selecione o veiculo</p>
-                <div class="dropdown">
-                <button id = "drop" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" >
-                    Placas
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">POF2IO90</a></li>
-                    <li><a class="dropdown-item" href="#">MNX2LK78</a></li>
-                    <li><a class="dropdown-item" href="#">DAS3DA23</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div id ="divisao">
-                <p>Selecione o condutor</p>
-                <div class="dropdown">
-                <button id = "drop" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" >
-                    Condutores
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Reginaldo</a></li>
-                    <li><a class="dropdown-item" href="#">Douglas</a></li>
-                    <li><a class="dropdown-item" href="#">Carlos</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div id ="divisao">
-            <p>Horário de entrada</p>
-                <input class="form-control me-2" type="text" />
-        </div>
-
-
-
-        <div id ="divisao">
-            <div class="botaoconfirmarmodelo">
-          <button type="button" onclick="window.location.href='/'" class="btn btn-outline-danger">
-            Cadastrar movimentação
+    <div class="row">
+      <div class="col-md-3 offset-md-6"> 
+        <div class="d-grid gap-2">
+          <router-link type="button" class="btn btn-info" 
+            to="/modelo">Voltar
+          </router-link>
+        </div>    
+      </div>
+      <div class="col-md-3 "> 
+        <div class="d-grid gap-2">
+          <button v-if="form === undefined" type="button" 
+              class="btn btn-success" @click="onClickCadastrar()">
+            Cadastrar 
           </button>
-
+          <button v-if="form === 'editar'" type="button" 
+              class="btn btn-warning" @click="onClickEditar()">
+            Editar 
+          </button>
+          <button v-if="form === 'delete'" type="button"
+            class="btn btn-danger" @click="onClickExcluir()">
+            Excluir 
+          </button>
         </div>
-
-        
-
-    </div>
-          </li>
-          
-         
-          
-        </ul>
       </div>
     </div>
-  </template>
-  
-  <style>
+  </div>
 
-  #drop{
+</template>
 
-    width: 100%;
+<script lang="ts">
 
+import { defineComponent } from 'vue';
+
+import   MovimentacaoClient  from '@/client/movimentacao.client';
+import { Movimentacao  } from '@/model/movimentacao';
+
+import { Veiculo } from '@/model/veiculo';
+import  VeiculoClient  from '@/client/veiculo.client';
+
+import { Condutor } from '@/model/condutor'
+import CondutorClient  from '@/client/condutor.client';
+
+export default defineComponent({
+  name: 'MovimentacaoFormulario',
+  data() {
+    return { 
+      movimentacao : new Movimentacao(),
+      veiculo: new Array<Veiculo>(),
+      condutor: new Array<Condutor>(),
+      mensagem: {
+        ativo: false as boolean,
+        titulo: "" as string,
+        mensagem: "" as string,
+        css: "" as string
+      }
+    }
+  },
+  computed: {
+    id () {
+      return this.$route.query.id
+    },
+    form () {
+      return this.$route.query.form
+    }
+  },
+  mounted() { 
+
+    if(this.id !== undefined){
+      this.findById(Number(this.id));
+    }
+    this.findAllVeiculo();
+    this.findAllCondutor();  
+
+  },
+  methods: {
+
+    findAllVeiculo(){
+      VeiculoClient.listaAll().then(sucess =>{
+        this.veiculo = sucess;
+        console.log(sucess);
+      })
+      .catch(error =>{
+          console.log(error)
+
+        })
+
+    },
+    findAllCondutor(){
+      CondutorClient.listaAll().then(sucess =>{
+        this.condutor = sucess;
+        console.log(sucess);
+      })
+      .catch(error =>{
+          console.log(error)
+
+        })
+
+    },
+
+
+    onClickCadastrar(){
+      MovimentacaoClient.cadastrar(this.movimentacao)
+        .then(sucess => {
+          this.movimentacao = new Movimentacao()
+
+          
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = sucess;
+          this.mensagem.titulo = "Parabens. ";
+          this.mensagem.css = "alert alert-success alert-dismissible fade show";
+        })
+        .catch(error => {
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = error;
+          this.mensagem.titulo = "Error. ";
+          this.mensagem.css = "alert alert-danger alert-dismissible fade show";
+        });
+    },
+    findById(id: number){
+      MovimentacaoClient.findById(id)
+        .then(sucess => {
+          this.movimentacao = sucess
+        })
+        .catch(error => {
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = error;
+          this.mensagem.titulo = "Error. ";
+          this.mensagem.css = "alert alert-danger alert-dismissible fade show";
+        });
+    },
+    onClickEditar(){
+      MovimentacaoClient.editar(this.movimentacao.id, this.movimentacao)
+        .then(sucess => {
+          this.movimentacao = new Movimentacao()
+          
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = sucess;
+          this.mensagem.titulo = "Parabens. ";
+          this.mensagem.css = "alert alert-success alert-dismissible fade show";
+        })
+        .catch(error => {
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = error;
+          this.mensagem.titulo = "Error. ";
+          this.mensagem.css = "alert alert-danger alert-dismissible fade show";
+        });
+    },
+    onClickExcluir(){
+      MovimentacaoClient.delete(this.movimentacao.id)
+        .then(sucess => {
+          this.movimentacao = new Movimentacao()
+          
+          this.$router.push({ name: '/home' });
+        })
+        .catch(error => {
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = error;
+          this.mensagem.titulo = "Error. ";
+          this.mensagem.css = "alert alert-danger alert-dismissible fade show";
+        });
+    }
   }
-
-  #divisao{
-    margin-bottom: 10px;
-    margin-top: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
+});
 
 
-  .maincadastromo {
-    min-height: 79.8vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .titulotcadastromo {
-    width: 100%;
-    height: 10  vh;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+</script>
 
 
-  input{
-    margin-bottom: 10px;
-  }
-  
-  .formulariomo  {
+<style>
+.maincadastroma {
+  min-height: 79.8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    width: 20%;
-    margin-bottom: 100px;
-  }
-  
-  .seletordemarca {
-    padding-right: 40px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 5px;
-    opacity: 0.7;
-  }
-  
-  .botaoconfirmarmodelo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 50px;
-  }
-  </style>
+.titulotcadastroma {
+  width: 100%;
+  height: 25vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formularioma {
+  height: 30vh;
+  width: 35%;
+}
+
+.seletordemarca {
+  padding-right: 40px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  opacity: 0.7;
+}
+
+.botaoconfirmarmarca {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.botaoconfirmarmarca button{
+
+  margin-left: 5px;
+
+}
+</style>
