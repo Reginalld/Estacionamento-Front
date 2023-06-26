@@ -1,139 +1,91 @@
 <template>
 
-    <div class="home">
-    <div class="tabela">
-
-        <div id="tudao">
-
-            <div class="titulo">
-                <h4>Modelos</h4>
-            </div>
-
-            <div class="botao">
-                <button type="button" onclick="window.location.href='/cadastromodelo'" class="btn btn-outline-danger">Cadastrar modelo</button>
-            </div>  
-
-            </div>    
-
-
-        <div class ="tabela2">
-                    <table class="table table-bordered table-striped table-responsive">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Marca</th>
-                        <th scope="col">Botão</th>
-
-
-
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Focus</td>
-                        <td>Ford</td>
-                        <td>
-                    <button type="button" class="btn btn-outline-primary">
-                        Excluir
-                    </button>
-                    <button type="button" class="btn btn-outline-success">
-                        Editar
-                    </button>
-                    </td>
-                        </tr>
-                        <tr>
-                        <th scope="row">2</th>
-                        <td>Palio</td>
-                        <td>Fiat</td>
-                        <td>
-                    <button type="button" class="btn btn-outline-primary">
-                        Excluir
-                    </button>
-                    <button type="button" class="btn btn-outline-success">
-                        Editar
-                    </button>
-                    </td>
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Mustang</td>
-                        <td>Ford</td>
-                        <td>
-                    <button type="button" class="btn btn-outline-primary">
-                        Excluir
-                    </button>
-                    <button type="button" class="btn btn-outline-success">
-                        Editar
-                    </button>
-                    </td>   
-                        </tr>
-                    </tbody>
-            </table>
+    <div class="container" style="margin-top: 10px;">
+  
+      <div class="row">
+        <div class="col-md-10 text-start"> <p class="fs-3"> Lista de Modelos </p> </div>
+        <div class="col-md-2"> 
+          <div class="d-grid gap-2">
+            <router-link type="button" class="btn btn-success" 
+              to="/cadastromodelo">Cadastrar
+            </router-link>
+          </div>
         </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-12">  
+          <table class="table">
+            <thead class="table-secondary" >
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Ativo</th>
+                <th scope="col" class="text-start">Modelo</th>
+                <th scope="col" class="text-start">Marca</th>
+                <th scope="col">Opção</th>
+              </tr>
+            </thead>  
+            <tbody class="table-group-divider">
+              
+              <tr v-for="item in modelosList" :key="item.id">
+                <th class="col-md-1">{{ item.id }}</th>
+                <th class="col-md-2"> 
+                  <span v-if="item.ativo" class="badge text-bg-success"> Ativo </span>
+                  <span v-if="!item.ativo" class="badge text-bg-danger"> Inativo </span>
+                </th>
+                <th class="text-start">{{ item.nome }}</th>
+                <th class="text-start">{{ item.marca.nome }}</th>
+                <th class="col-md-2">
+                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <router-link type="button" class="btn btn-sm btn-warning" 
+                        :to="{ name: 'modelo-formulario-editar-view', query: { id: item.id, form: 'editar' } } "> 
+                      Editar 
+                    </router-link>
+                    <router-link type="button" class="btn btn-sm btn-danger" 
+                        :to="{ name: 'modelo-formulario-excluir-view', query: { id: item.id, form: 'delete' } } ">
+                      Excluir
+                    </router-link>
+                  </div>
+                </th>
+              </tr>
+  
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-</div>
-
+  
   </template>
   
-  <script lang="ts"></script>
+  <script lang="ts">
   
-  <style>
-h5{
-    text-decoration: dashed;
-    
-  }
-
-    .tabela{
-    width: 100%;
+  import { defineComponent } from 'vue';
   
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 5rem;
-
+  import  ModeloClient from '@/client/modelo.client';
+  import { Modelo } from '@/model/modelo';
+  
+  export default defineComponent({
+    name: 'ModeloLista',
+    data() {
+      return {
+          modelosList: new Array<Modelo>()
+      }
+    },
+    mounted() {
+      this.findAll();
+    },
+    methods: {
+  
+      findAll() {
+        ModeloClient.listaAll()
+          .then(sucess => {
+            this.modelosList = sucess
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     }
-
-
-
-    #tudao{
-        width: 65%;
-        
-        display: flex;
-        justify-content: center;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.5rem;
-        margin-top: 5rem;
-        
-    }
-
-    .tabela2{
-        width: 65%;
-    }
-
-    .botao {
-    display: flex;
-
-    height: 45px;
-    
-  }
-
-  .titulo h1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    font-weight: bold;
-    color: black;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    height: 10vh;
-  }
-
-
-
-  </style>
+  });
+  
+  </script>
