@@ -35,10 +35,6 @@
             <label for="recipient-name" class=" row m-auto col-form-label">Marca :</label>
             <select type="text" v-model="movimentacao.veiculo"><option v-for="item in veiculo" :value="item">{{ item.modelo.marca.nome }} </option></select>
         </div> 
-        <div class="col-md-12 text-start">
-          <label class="form-label">Entrada</label>
-          <input type="text"  class="form-control" v-model="movimentacao.entrada">
-        </div>
       </div>
 
 
@@ -46,7 +42,7 @@
       <div class="col-md-3 offset-md-6"> 
         <div class="d-grid gap-2">
           <router-link type="button" class="btn btn-info" 
-            to="/modelo">Voltar
+            to="/">Voltar
           </router-link>
         </div>    
       </div>
@@ -194,7 +190,7 @@ export default defineComponent({
         .then(sucess => {
           this.movimentacao = new Movimentacao()
           
-          this.$router.push({ name: '/home' });
+          this.$router.push({ name: '/movimentacao-formulario-excluir-view' });
         })
         .catch(error => {
           this.mensagem.ativo = true;

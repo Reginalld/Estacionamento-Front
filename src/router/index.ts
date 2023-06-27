@@ -157,6 +157,26 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: '/cadastroconfiguracao',
+    name: 'CadastroConfiguracao',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/CadastroConfiguracaoView.vue'),
+    children: [
+      {
+        path: '/cadastroconfiguracao',
+        name: 'configuracao-formulario-editar-view',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CadastroConfiguracaoView.vue')
+      },
+      {
+        path: '/cadastroconfiguracao',
+        name: 'configuracao-formulario-excluir-view',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CadastroConfiguracaoView.vue')
+      }
+    ]
+  },
+  {
     path: '/relatorio',
     name: 'Relatorio',
     // route level code-splitting
