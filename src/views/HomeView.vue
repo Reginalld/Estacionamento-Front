@@ -45,11 +45,11 @@
                   <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                     <router-link type="button" class="btn btn-sm btn-warning" 
                         :to="{ name: 'movimentacao-formulario-editar-view', query: { id: item.id, form: 'editar' } } "> 
-                      Editar 
+                      Finalizar 
                     </router-link>
                     <router-link type="button" class="btn btn-sm btn-danger" 
                         :to="{ name: 'movimentacao-formulario-excluir-view', query: { id: item.id, form: 'delete' } } ">
-                      Excluir
+                      Editar
                     </router-link>
                   </div>
                 </th>
@@ -78,9 +78,18 @@
       }
     },
     mounted() {
-      this.findAll();
+      this.findAllLista();
     },
     methods: {
+
+      findAllLista() {
+        MovimentacaoClient.listaAll()
+          .then(sucess => {
+            this.movimentacoesLista = sucess
+          })
+          .catch(error => {
+            console.log(error);
+          })},
   
       findAll() {
         MovimentacaoClient.listaAll()

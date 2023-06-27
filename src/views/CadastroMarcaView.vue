@@ -144,7 +144,10 @@ methods: {
       .then(sucess => {
         this.marca = new Marca()
         
-        this.$router.push({ name: 'marca-lista-view' });
+        this.mensagem.ativo = true;
+        this.mensagem.mensagem = sucess;
+        this.mensagem.titulo = "Parabens. ";
+        this.mensagem.css = "alert alert-success alert-dismissible fade show";
       })
       .catch(error => {
         this.mensagem.ativo = true;

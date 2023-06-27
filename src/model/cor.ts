@@ -1,5 +1,13 @@
 export enum Cor{
     // AZUL, LARANJA, ROXO, VERMELHO, BRANCO, ROSA, PRATA, PRETO, VERDE, AMARELO
     AZUL = "AZUL",
-    LARANJA = "LARANJA"
+    LARANJA = "LARANJA",
+    ROXO = "ROXO",
+    VERMELHO = "VERMELHO",
+    BRANCO = "BRANCO",
+    ROSA = "ROSA",
+    PRATA = "PRATA",
+    PRETO = "PRETO",
+    VERDE = "VERDE",
+    AMARELO = "AMARELO"
 }

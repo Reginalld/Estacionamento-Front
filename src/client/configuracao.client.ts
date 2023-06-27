@@ -31,6 +31,7 @@ class ConfiguracaoClient{
         }
     }
 
+
     public async cadastrar(configuracao: Configuracao): Promise<string> {
         try {
             return (await this.axiosClient.post<string>(``, configuracao)).data

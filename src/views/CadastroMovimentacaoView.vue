@@ -190,7 +190,10 @@ export default defineComponent({
         .then(sucess => {
           this.movimentacao = new Movimentacao()
           
-          this.$router.push({ name: '/movimentacao-formulario-excluir-view' });
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = sucess;
+          this.mensagem.titulo = "Parabens. ";
+          this.mensagem.css = "alert alert-success alert-dismissible fade show";
         })
         .catch(error => {
           this.mensagem.ativo = true;

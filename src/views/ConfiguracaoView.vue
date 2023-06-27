@@ -6,7 +6,7 @@
         <div class="col-md-10 text-start"> <p class="fs-3"> Configuração </p> </div>
         <div class="col-md-2"> 
           <div class="d-grid gap-2">
-            <router-link type="button" class="btn btn-success" 
+            <router-link type="button"  class="btn btn-success"  v-if="!configuracaoLista.length"
               to="/cadastroconfiguracao">Cadastrar
             </router-link>
           </div>

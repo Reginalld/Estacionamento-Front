@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-12 text-start">
           <label class="form-label">Ano</label>
-          <input type="int"  class="form-control" v-model="veiculo.ano">
+          <input type="number"  class="form-control" v-model="veiculo.ano">
         </div>
         <div class="col-md-12 text-start">
             <label for="recipient-name" class=" row m-auto col-form-label">Cor:</label>
@@ -179,7 +179,10 @@ export default defineComponent({
         .then(sucess => {
           this.veiculo = new Veiculo()
           
-          this.$router.push({ name: 'veiculo-lista-view' });
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = sucess;
+          this.mensagem.titulo = "Parabens. ";
+          this.mensagem.css = "alert alert-success alert-dismissible fade show";
         })
         .catch(error => {
           this.mensagem.ativo = true;

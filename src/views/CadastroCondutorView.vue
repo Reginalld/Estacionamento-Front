@@ -152,7 +152,10 @@ methods: {
       .then(sucess => {
         this.condutor = new Condutor()
         
-        this.$router.push({ name: 'condutor-lista-view' });
+        this.mensagem.ativo = true;
+        this.mensagem.mensagem = sucess;
+        this.mensagem.titulo = "Parabens. ";
+        this.mensagem.css = "alert alert-success alert-dismissible fade show";
       })
       .catch(error => {
         this.mensagem.ativo = true;

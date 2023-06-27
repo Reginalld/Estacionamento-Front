@@ -17,13 +17,21 @@ class MovimentacaoClient{
       try {
           return (await this.axiosClient.get<Movimentacao>(`/${id}`)).data
       } catch (error:any) {
-          return Promise.reject(error.response)
+          return Promise.reject(error.response.data)
       }
   }  
 
   public async listaAll(): Promise<Movimentacao[]> {
     try {
         return (await this.axiosClient.get<Movimentacao[]>(`/lista`)).data
+    } catch (error:any) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+public async listaAllAtivo(): Promise<Movimentacao[]> {
+    try {
+        return (await this.axiosClient.get<Movimentacao[]>(`/ativos/${true}`)).data
     } catch (error:any) {
         return Promise.reject(error.response)
     }
@@ -33,21 +41,21 @@ public async cadastrar(movimentacao: Movimentacao): Promise<string> {
     try {
         return (await this.axiosClient.post<string>(``, movimentacao)).data
     } catch (error:any) {
-        return Promise.reject(error.response)
+        return Promise.reject(error.response.data)
     }
 }
 public async editar(id: number, movimentacao: Movimentacao): Promise<string> {
     try {
         return (await this.axiosClient.put<string>(`/${id}`, movimentacao)).data
     } catch (error:any) {
-        return Promise.reject(error.response)
+        return Promise.reject(error.response.data)
     }
 }
 public async delete(id: number): Promise<string> {
     try {
         return (await this.axiosClient.delete<string>(`/${id}`)).data
     } catch (error:any) {
-        return Promise.reject(error.response)
+        return Promise.reject(error.response.data)
     }
 }
 }
