@@ -3,7 +3,7 @@
   <div class="container" style="background: ;">
 
     <div class="row">
-      <div class="col-md-10 text-start"> <p class="fs-3"> Cadastrar de Movimentacao</p> </div>
+      <div v-if="form === undefined" class="col-md-10 text-start"> <p class="fs-3"> Cadastrar de Movimentacao</p> </div>
       <div class="col-md-2"> </div>
     </div>
 
@@ -40,7 +40,7 @@
 
     <div class="row">
       <div class="col-md-3 offset-md-6"> 
-        <div class="d-grid gap-2">
+        <div id = "volta" class="d-grid gap-2">
           <router-link type="button" class="btn btn-info" 
             to="/">Voltar
           </router-link>
@@ -52,13 +52,14 @@
               class="btn btn-success" @click="onClickCadastrar()">
             Cadastrar 
           </button>
-          <button v-if="form === 'editar'" type="button" 
-              class="btn btn-warning" @click="onClickEditar()">
-            Editar 
-          </button>
+          <router-link :to="{ name: 'formulario-formulario', query: { id: id } }" v-if="form === 'editar'" type="button" id = "finalizar" class="btn btn-success rounded-0" @click="onClickEditar()">Finalizar</router-link>
           <button v-if="form === 'delete'" type="button"
             class="btn btn-danger" @click="onClickExcluir()">
-            Excluir 
+            Desativar 
+          </button>
+          <button v-if="form === 'editarDeVerdade'" type="button"
+            class="btn btn-warning" @click="onClickEditarDeVerdade()">
+            Editar 
           </button>
         </div>
       </div>
@@ -201,6 +202,23 @@ export default defineComponent({
           this.mensagem.titulo = "Error. ";
           this.mensagem.css = "alert alert-danger alert-dismissible fade show";
         });
+    },
+    onClickEditarDeVerdade(){
+      MovimentacaoClient.editarDeVerdade(this.movimentacao.id, this.movimentacao)
+        .then(sucess => {
+          this.movimentacao = new Movimentacao()
+          
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = sucess;
+          this.mensagem.titulo = "Parabens. ";
+          this.mensagem.css = "alert alert-success alert-dismissible fade show";
+        })
+        .catch(error => {
+          this.mensagem.ativo = true;
+          this.mensagem.mensagem = error;
+          this.mensagem.titulo = "Error. ";
+          this.mensagem.css = "alert alert-danger alert-dismissible fade show";
+        });
     }
   }
 });
@@ -209,47 +227,10 @@ export default defineComponent({
 </script>
 
 
-<style>
-.maincadastroma {
-  min-height: 79.8vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+<style scoped>
 
-.titulotcadastroma {
-  width: 100%;
-  height: 25vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.formularioma {
-  height: 30vh;
-  width: 35%;
-}
-
-.seletordemarca {
-  padding-right: 40px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5px;
-  opacity: 0.7;
-}
-
-.botaoconfirmarmarca {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-top: 50px;
-}
-
-.botaoconfirmarmarca button{
-
-  margin-left: 5px;
-
-}
+    #finalizar{
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
 </style>

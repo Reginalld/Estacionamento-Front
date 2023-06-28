@@ -32,7 +32,7 @@
 
     <div class="row">
       <div class="col-md-3 offset-md-6"> 
-        <div class="d-grid gap-2">
+        <div id = "volta" class="d-grid gap-2">
           <router-link type="button" class="btn btn-info" 
             to="/modelo">Voltar
           </router-link>
@@ -182,47 +182,41 @@ export default defineComponent({
 </script>
 
 
+
 <style>
-.maincadastroma {
-  min-height: 79.8vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+.div-select {
+    width: 250px;
+    /* Tamanho final do select */
+    overflow: hidden;
+    /* Esconde o conteúdo que passar do tamanho especificado */
 }
 
-.titulotcadastroma {
-  width: 100%;
-  height: 25vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.div-select select {
+    background: url(http://www.webcis.com.br/images/imagens-noticias/select/ico-seta-select.gif) no-repeat #354880;
+    /* Imagem de fundo (Seta) */
+    background-position: 205px center;
+    /*Posição da imagem do background*/
+    width: 270px;
+    /* Tamanho do select, maior que o tamanho da div "div-select" */
+    height: 48px;
+    /* altura do select, importante para que tenha a mesma altura em todo os navegadores */
+    font-family: Arial, Helvetica, sans-serif;
+    /* Fonte do Select */
+    font-size: 18px;
+    /* Tamanho da Fonte */
+    padding: 13px 20px 13px 12px;
+    /* Configurações de padding para posicionar o texto no campo */
+    color: #fff;
+    /* Cor da Fonte */
+    text-indent: 0.01px;
+    /* Remove seta padrão do FireFox */
+    text-overflow: "";
 }
 
-.formularioma {
-  height: 30vh;
-  width: 35%;
+/* Remove seta padrão do FireFox */
+.div-select select::-ms-expand {
+    display: none;
 }
-
-.seletordemarca {
-  padding-right: 40px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5px;
-  opacity: 0.7;
-}
-
-.botaoconfirmarmarca {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-top: 50px;
-}
-
-.botaoconfirmarmarca button{
-
-  margin-left: 5px;
-
-}
+/* Remove seta padrão do IE*/
 </style>

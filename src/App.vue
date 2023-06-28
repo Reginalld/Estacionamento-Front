@@ -9,7 +9,7 @@
 
   <Navbar />
   <router-view/>
-  <Footer />
+  <Footer></Footer>
 
 
 </template>
@@ -47,6 +47,19 @@ padding: 0;
 box-sizing: border-box;
 font-family: 'poppins', sans-serif;
 
+  }
+
+  button{
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+#volta{
+  margin-top: 20px;
+}
+
+#home{
+    margin-bottom: 25%;
   }
 
 

@@ -24,10 +24,72 @@
           <input type="number"  class="form-control" v-model="configuracao.valorHora">
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">ValorMinutoMulta*</label>
+          <input type="number"  class="form-control" v-model="configuracao.valorMinutoMulta">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">InicioExpediente*</label>
+          <input type="time"  class="form-control" v-model="configuracao.inicioExpediente">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">FimExpediente*</label>
+          <input type="time"  class="form-control" v-model="configuracao.fimExpediente">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">TempoParaDesconto*</label>
+          <input type="time"  class="form-control" v-model="configuracao.tempoParaDesconto">
+        </div>
+      </div>
   
       <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">TempoDeDesconto*</label>
+          <input type="time"  class="form-control" v-model="configuracao.tempoDeDesconto">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">GerarDesconto*</label>
+          <input type="boolean"  class="form-control" v-model="configuracao.gerarDesconto">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">VagasMoto*</label>
+          <input type="number"  class="form-control" v-model="configuracao.vagasMoto">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">VagasCarro*</label>
+          <input type="number"  class="form-control" v-model="configuracao.vagasCarro">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <label class="form-label">VagasVan*</label>
+          <input type="number"  class="form-control" v-model="configuracao.vagasVan">
+        </div>
+      </div>
+
+      <div class="row">
         <div class="col-md-3 offset-md-6"> 
-          <div class="d-grid gap-2">
+          <div id = "volta" class="d-grid gap-2">
             <router-link type="button" class="btn btn-info" 
               to="/configuracao">Voltar
             </router-link>
@@ -43,9 +105,8 @@
                 class="btn btn-warning" @click="onClickEditar()">
               Editar 
             </button>
-            <button v-if="form === 'delete'" type="button"
+            <button v-if="form === 'delete' " type="button"
               class="btn btn-danger" @click="onClickExcluir()">
-              Excluir 
             </button>
           </div>
         </div>

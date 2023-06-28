@@ -17,6 +17,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/MarcaView.vue')
   },
   {
+    path: '/formulario',
+    name: 'formulario-formulario',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/FormularioView.vue')
+  },
+  {
     path: '/modelo',
     name: 'Modelo',
     // route level code-splitting
@@ -132,6 +140,11 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/cadastromovimentacao',
         name: 'movimentacao-formulario-excluir-view',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CadastroMovimentacaoView.vue')
+      },
+      {
+        path: '/cadastromovimentacao',
+        name: 'movimentacao-formulario-fechar-view',
         component: () => import(/* webpackChunkName: "about" */ '../views/CadastroMovimentacaoView.vue')
       }
     ]

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container" style="margin-top: 10px;">
+    <div id= "home" class="container" style="margin-top: 10px;">
   
       <div class="row">
         <div class="col-md-10 text-start"> <p class="fs-3"> Configuração </p> </div>
@@ -20,7 +20,7 @@
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col" class="text-start">ValorHora</th>
-                <!-- <th scope="col" class="text-start">ValorMinutoMulta</th>
+                <th scope="col" class="text-start">ValorMinutoMulta</th>
                 <th scope="col" class="text-start">InicioExpediente</th>
                 <th scope="col" class="text-start">FimExpediente</th>
                 <th scope="col" class="text-start">TempoParaDesconto</th>
@@ -28,7 +28,7 @@
                 <th scope="col" class="text-start">GerarDesconto</th>
                 <th scope="col" class="text-start">VagasMoto</th>
                 <th scope="col" class="text-start">VagasVan</th>
-                <th scope="col" class="text-start">VagasMoto</th> -->
+                <th scope="col" class="text-start">VagasMoto</th> 
 
                 <th scope="col">Opção</th>
               </tr>
@@ -38,7 +38,7 @@
               <tr v-for="item in configuracaoLista" :key="item.id">
                 <th class="col-md-1">{{ item.id }}</th>
                 <th class="text-start">{{ item.valorHora}}</th>
-                <!-- <th class="text-start">{{ item.valorMinutoMulta}}</th>
+                <th class="text-start">{{ item.valorMinutoMulta}}</th>
                 <th class="text-start">{{ item.inicioExpediente}}</th>
                 <th class="text-start">{{ item.fimExpediente}}</th>
                 <th class="text-start">{{ item.tempoParaDesconto}}</th>
@@ -46,7 +46,7 @@
                 <th class="text-start">{{ item.gerarDesconto}}</th>
                 <th class="text-start">{{ item.vagasMoto}}</th>
                 <th class="text-start">{{ item.vagasVan}}</th>
-                <th class="text-start">{{ item.vagasMoto}}</th> -->
+                <th class="text-start">{{ item.vagasMoto}}</th>
                 <th class="col-md-2">
                   <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                     <router-link type="button" class="btn btn-sm btn-warning" 

@@ -35,7 +35,7 @@
 
     <div class="row">
       <div class="col-md-3 offset-md-6"> 
-        <div class="d-grid gap-2">
+        <div id = "volta" class="d-grid gap-2">
           <router-link type="button" class="btn btn-info" 
             to="/condutor">Voltar
           </router-link>

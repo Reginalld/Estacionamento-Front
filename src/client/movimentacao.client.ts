@@ -33,7 +33,7 @@ public async listaAllAtivo(): Promise<Movimentacao[]> {
     try {
         return (await this.axiosClient.get<Movimentacao[]>(`/ativos/${true}`)).data
     } catch (error:any) {
-        return Promise.reject(error.response)
+        return Promise.reject(error.response.data)
     }
 }
 
@@ -51,6 +51,15 @@ public async editar(id: number, movimentacao: Movimentacao): Promise<string> {
         return Promise.reject(error.response.data)
     }
 }
+
+public async editarDeVerdade(id: number, movimentacao: Movimentacao): Promise<string> {
+    try {
+        return (await this.axiosClient.put<string>(`editar/${id}`, movimentacao)).data
+    } catch (error:any) {
+        return Promise.reject(error.response.data)
+    }
+}
+
 public async delete(id: number): Promise<string> {
     try {
         return (await this.axiosClient.delete<string>(`/${id}`)).data

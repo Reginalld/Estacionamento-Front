@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container" style="margin-top: 10px;">
+    <div id = "home" class="container" style="margin-top: 10px;">
   
       <div class="row">
         <div class="col-md-10 text-start"> <p class="fs-3"> Lista de Movimentações em aberto </p> </div>
@@ -43,12 +43,16 @@
                 <th class="text-start">{{ item.entrada}}</th>
                 <th class="col-md-2">
                   <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                    <router-link type="button" class="btn btn-sm btn-warning" 
+                    <router-link type="button" class="btn btn-sm btn-success" 
                         :to="{ name: 'movimentacao-formulario-editar-view', query: { id: item.id, form: 'editar' } } "> 
                       Finalizar 
                     </router-link>
                     <router-link type="button" class="btn btn-sm btn-danger" 
                         :to="{ name: 'movimentacao-formulario-excluir-view', query: { id: item.id, form: 'delete' } } ">
+                      Desativar
+                    </router-link>
+                    <router-link type="button" class="btn btn-sm btn-warning" 
+                        :to="{ name: 'movimentacao-formulario-fechar-view', query: { id: item.id, form: 'editarDeVerdade' } } ">
                       Editar
                     </router-link>
                   </div>
@@ -78,12 +82,13 @@
       }
     },
     mounted() {
+      
       this.findAllLista();
     },
     methods: {
 
       findAllLista() {
-        MovimentacaoClient.listaAll()
+        MovimentacaoClient.listaAllAtivo()
           .then(sucess => {
             this.movimentacoesLista = sucess
           })
@@ -104,3 +109,8 @@
   });
   
   </script>
+
+  <style>
+
+
+  </style>
